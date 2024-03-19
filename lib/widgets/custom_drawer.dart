@@ -1,4 +1,5 @@
 import 'package:bus_tracker/repository/driver_auth_repository.dart';
+import 'package:bus_tracker/screens/on_boarding_screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../screens/on_boarding_screens/on_boarding_screen.dart';
@@ -88,7 +89,7 @@ class CustomDrawer extends StatelessWidget {
               SharedPref().setUserName("");
               DriverAuthRepository().logout();
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => OnBoardingScreen()));
+                  MaterialPageRoute(builder: (context) => SplashScreen()));
             },
             leading: Icon(Icons.logout_outlined),
             title: const Text(

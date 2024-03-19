@@ -1,5 +1,5 @@
 import 'package:bus_tracker/repository/driver_auth_repository.dart';
-import 'package:bus_tracker/screens/on_boarding_screens/on_boarding_screen.dart';
+import 'package:bus_tracker/screens/on_boarding_screens/splash_screen.dart';
 import 'package:bus_tracker/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
 
@@ -27,35 +27,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text("Track-N-Go"),
+      ),
       body: ListView(
         children: [
-          Container(
-            height: 165.0,
-            child: DrawerHeader(
-              decoration: BoxDecoration(color: Colors.white),
-              child: Row(
-                children: [
-                  Image.asset(
-                    "assets/images/user_logo.png",
-                    height: 65.0,
-                    width: 65.0,
-                  ),
-                  SizedBox(
-                    width: 16.0,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "${name}",
-                        style: TextStyle(fontSize: 16.0),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
+          Image.asset(
+            "assets/images/user_logo.png",
+            height: 200,
           ),
+          SizedBox(
+            height: 10,
+          ),
+          name != null
+              ? Center(
+                  child: Text(
+                    name!,
+                    style: TextStyle(fontSize: 24),
+                  ),
+                )
+              : CircularProgressIndicator(),
           Divider(
             height: 1.0,
             color: Colors.blueGrey,
@@ -73,14 +65,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             },
             leading: Icon(Icons.info),
             title: Text(
-              "About",
+              "About us",
+              style: TextStyle(fontSize: 15.0),
+            ),
+          ),
+          ListTile(
+            leading: Icon(Icons.phone),
+            title: Text(
+              "Contect us",
               style: TextStyle(fontSize: 15.0),
             ),
           ),
           ListTile(
             leading: Icon(Icons.file_copy),
             title: Text(
-              "T&C",
+              "Privacy Policy",
               style: TextStyle(fontSize: 15.0),
             ),
           ),
@@ -89,7 +88,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               SharedPref().setUserName("");
               DriverAuthRepository().logout();
               Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => OnBoardingScreen()));
+                  MaterialPageRoute(builder: (context) => SplashScreen()));
             },
             leading: Icon(Icons.logout_outlined),
             title: const Text(

@@ -28,7 +28,6 @@ class DetailedRoute extends StatelessWidget {
                 child: ListTile(
                   title: Text(busNo),
                   subtitle: Text(busRoute),
-                  trailing: Icon(Icons.arrow_circle_right),
                 ),
               ),
             ),

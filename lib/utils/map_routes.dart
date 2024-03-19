@@ -154,7 +154,7 @@ const List route3Stops = [
 const List<LatLng> route4 = [];
 
 const List route4Stops = [
-  "Manore",
+  "Mandore",
   "Kishor bag",
   "krishi mandi",
   "Bhadwasiya fatak",

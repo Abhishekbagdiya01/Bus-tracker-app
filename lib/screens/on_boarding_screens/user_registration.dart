@@ -1,4 +1,5 @@
 import 'package:bus_tracker/screens/home_screen.dart';
+import 'package:bus_tracker/screens/screen_layout.dart';
 import 'package:bus_tracker/utils/shared_pref.dart';
 import 'package:bus_tracker/widgets/custom_button.dart';
 import 'package:bus_tracker/widgets/custom_text_field.dart';
@@ -43,7 +44,7 @@ class UserRegistrationScreen extends StatelessWidget {
                   Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomeScreen(),
+                        builder: (context) => ScreenLayout(),
                       ));
                 } else {
                   snackbarMessenger(context, "Name cannot be empty");
