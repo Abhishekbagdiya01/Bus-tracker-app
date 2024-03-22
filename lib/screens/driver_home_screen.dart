@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:bus_tracker/models/driver_model.dart';
 import 'package:bus_tracker/repository/firestore_repository.dart';
-import 'package:bus_tracker/utils/map_routes.dart';
 import 'package:bus_tracker/utils/utils.dart';
 import 'package:bus_tracker/widgets/custom_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -66,7 +65,10 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
             : CircularProgressIndicator(),
       ),
       drawer: driverInfo != null
-          ? CustomDrawer(name: driverInfo!.name)
+          ? CustomDrawer(
+              name: driverInfo!.name,
+              imageUrl: driverInfo!.imageUrl,
+            )
           : SizedBox(),
       body: Column(
         children: [
@@ -124,6 +126,12 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
                   }
                 } else {
                   isClicked = false;
+                  FireStoreRepository()
+                      .sendLocationToFireStore(
+                          route: driverInfo!.route, lat: "0", lng: "0")
+                      .then((value) {
+                    log("${currentPosition} sended to firebase");
+                  });
                   log("Location sharing stop \n btn clicked ${isClicked}");
                   setState(() {});
                 }

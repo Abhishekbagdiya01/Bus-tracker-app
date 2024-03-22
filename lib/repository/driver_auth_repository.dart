@@ -22,7 +22,8 @@ class DriverAuthRepository {
           drivingLicenseNumber: driverModel.drivingLicenseNumber,
           busNumber: driverModel.busNumber,
           email: driverModel.email,
-          route: driverModel.route);
+          route: driverModel.route,
+          imageUrl: "");
       await _firestore
           .collection("drivers")
           .doc(userCredential.user!.uid)

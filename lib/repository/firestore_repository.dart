@@ -1,4 +1,8 @@
+import 'dart:developer';
+import 'dart:typed_data';
+
 import 'package:bus_tracker/models/driver_model.dart';
+import 'package:bus_tracker/repository/storage_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireStoreRepository {
@@ -26,5 +30,23 @@ class FireStoreRepository {
         .where("Route", isEqualTo: route)
         .get();
     return driverLocation;
+  }
+
+  // Edit profile
+  Future editProfile(
+      {required String uid,
+      required Uint8List image,
+      required String name}) async {
+    try {
+      String imageUrl =
+          await StorageRepository().uploadImageToStorage(uid: uid, file: image);
+      log(imageUrl);
+      _firestore.collection("drivers").doc(uid).update({
+        "imageUrl": imageUrl,
+        "name": name,
+      });
+    } catch (error) {
+      log(error.toString());
+    }
   }
 }

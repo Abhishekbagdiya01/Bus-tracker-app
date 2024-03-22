@@ -1,17 +1,18 @@
 import 'package:bus_tracker/repository/driver_auth_repository.dart';
+import 'package:bus_tracker/screens/driver_edit_profile.dart';
 import 'package:bus_tracker/screens/on_boarding_screens/splash_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../screens/on_boarding_screens/on_boarding_screen.dart';
 import '../utils/shared_pref.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({
     super.key,
     required this.name,
+    required this.imageUrl,
   });
 
   final String? name;
+  final String? imageUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -24,11 +25,18 @@ class CustomDrawer extends StatelessWidget {
               decoration: BoxDecoration(color: Colors.white),
               child: Row(
                 children: [
-                  Image.asset(
-                    "assets/images/user_logo.png",
-                    height: 65.0,
-                    width: 65.0,
-                  ),
+                  imageUrl != ""
+                      ? CircleAvatar(
+                          radius: 60,
+                          backgroundImage: NetworkImage(
+                            imageUrl!,
+                          ),
+                        )
+                      : Image.asset(
+                          "assets/images/user_logo.png",
+                          height: 65.0,
+                          width: 65.0,
+                        ),
                   SizedBox(
                     width: 16.0,
                   ),
@@ -42,7 +50,17 @@ class CustomDrawer extends StatelessWidget {
                       SizedBox(
                         height: 6.0,
                       ),
-                      Text("Visit Profile"),
+                      InkWell(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => EditProfile(
+                                    name: name!,
+                                  ),
+                                ));
+                          },
+                          child: Text("Edit Profile")),
                     ],
                   )
                 ],
@@ -56,20 +74,6 @@ class CustomDrawer extends StatelessWidget {
           ),
           SizedBox(
             height: 12.0,
-          ),
-          ListTile(
-            leading: Icon(Icons.history),
-            title: Text(
-              "History",
-              style: TextStyle(fontSize: 15.0),
-            ),
-          ),
-          ListTile(
-            leading: Icon(Icons.person),
-            title: Text(
-              "Visit Profile",
-              style: TextStyle(fontSize: 15.0),
-            ),
           ),
           ListTile(
             onTap: () {

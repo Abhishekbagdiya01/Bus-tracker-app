@@ -2,12 +2,11 @@ import 'package:bus_tracker/models/driver_model.dart';
 import 'package:bus_tracker/repository/driver_auth_repository.dart';
 import 'package:bus_tracker/screens/driver_home_screen.dart';
 import 'package:bus_tracker/screens/on_boarding_screens/driver_login_screen.dart';
-import 'package:bus_tracker/utils/shared_pref.dart';
 import 'package:bus_tracker/widgets/custom_button.dart';
 import 'package:bus_tracker/widgets/custom_text_field.dart';
 import 'package:bus_tracker/widgets/snackbar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -23,7 +22,8 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController busNoController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController routeController = TextEditingController();
-
+  List routes = ["R1", "R2", "R3", "R4"];
+  String selectedRoute = "R1";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,12 +74,32 @@ class _SignUpPageState extends State<SignUpPage> {
                     iconData: Icons.bus_alert,
                     keyboardType: TextInputType.number,
                     isHide: false),
-                CustomTextField(
-                    width: MediaQuery.sizeOf(context).width * .4,
-                    controller: routeController,
-                    hintText: "Route",
-                    iconData: Icons.pin_drop_outlined,
-                    isHide: false),
+                // CustomTextField(
+                //     width: MediaQuery.sizeOf(context).width * .4,
+                //     controller: routeController,
+                //     hintText: "Route",
+                //     iconData: Icons.pin_drop_outlined,
+                //     isHide: false),
+                SizedBox(
+                  width: 100,
+                  child: DropdownButton(
+                    value: selectedRoute,
+                    items: routes
+                        .map(
+                          (value) => DropdownMenuItem(
+                            child: Text(
+                              value.toString(),
+                            ),
+                            value: value,
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      selectedRoute = value.toString();
+                      setState(() {});
+                    },
+                  ),
+                )
               ],
             ),
             SizedBox(height: 10),
