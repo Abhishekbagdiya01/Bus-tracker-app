@@ -22,7 +22,7 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
   void driverDetails() async {
     String uid = FirebaseAuth.instance.currentUser!.uid;
     driverInfo = await FireStoreRepository().getDriverDetails(uid);
-    log(driverInfo!.route);
+    log(driverInfo!.busNumber);
     setState(() {});
   }
 
@@ -116,7 +116,7 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
                   while (isClicked) {
                     FireStoreRepository()
                         .sendLocationToFireStore(
-                            route: driverInfo!.route,
+                            busNo: driverInfo!.busNumber,
                             lat: currentPosition!.latitude.toString(),
                             lng: currentPosition!.longitude.toString())
                         .then((value) {
@@ -128,7 +128,7 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
                   isClicked = false;
                   FireStoreRepository()
                       .sendLocationToFireStore(
-                          route: driverInfo!.route, lat: "0", lng: "0")
+                          busNo: driverInfo!.busNumber, lat: "0", lng: "0")
                       .then((value) {
                     log("${currentPosition} sended to firebase");
                   });

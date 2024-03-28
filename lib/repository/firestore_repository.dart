@@ -17,17 +17,17 @@ class FireStoreRepository {
   }
 
   Future sendLocationToFireStore(
-      {required String route, required String lat, required String lng}) async {
+      {required String busNo, required String lat, required String lng}) async {
     _firestore
         .collection("location")
-        .doc(route)
-        .set({"lat": lat, "lng": lng, "Route": route});
+        .doc(busNo)
+        .set({"lat": lat, "lng": lng, "busNumber": busNo});
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getDriverPosition(route) async {
+  Future<QuerySnapshot<Map<String, dynamic>>> getDriverPosition(busNo) async {
     final driverLocation = await _firestore
         .collection('location')
-        .where("Route", isEqualTo: route)
+        .where("busNumber", isEqualTo: busNo)
         .get();
     return driverLocation;
   }

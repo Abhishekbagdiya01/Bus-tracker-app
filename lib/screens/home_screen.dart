@@ -4,11 +4,10 @@ import 'package:bus_tracker/repository/firestore_repository.dart';
 import 'package:bus_tracker/utils/map_routes.dart';
 import 'package:bus_tracker/utils/shared_pref.dart';
 import 'package:bus_tracker/utils/utils.dart';
-import 'package:bus_tracker/widgets/custom_drawer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -20,10 +19,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<HomeScreen> {
-  final Completer<GoogleMapController> _controllerGoogleMap = Completer();
-  late GoogleMapController newGoogleMapController;
-
-  // GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
   int selectedRoute = 0;
   List routes = [route1, route2, route3, route4];
   Color routeColor = Colors.blue;
@@ -43,6 +38,7 @@ class _MyHomePageState extends State<HomeScreen> {
   );
 
   String? name = "";
+
   Map markers = {};
   getUsername() async {
     name = await SharedPref().getUserName();
@@ -102,14 +98,6 @@ class _MyHomePageState extends State<HomeScreen> {
             myLocationEnabled: true,
             zoomGesturesEnabled: true,
             zoomControlsEnabled: true,
-            // onMapCreated: (GoogleMapController controller) {
-            //   _controllerGoogleMap.complete(controller);
-            //   newGoogleMapController = controller;
-            //   setState(() {
-            //     bottomPaddingOfMap = 300.0;
-            //   });
-            //   getCurrentPosition();
-            // },
             polylines: {
               Polyline(
                 polylineId: PolylineId('route'),
@@ -137,7 +125,7 @@ class _MyHomePageState extends State<HomeScreen> {
                       ])),
                   onPressed: () {
                     selectedRoute = 0;
-                    route = "R1";
+                    route = "B1";
                     Timer.periodic(Duration(seconds: 8), (timer) {
                       getBusLocation(route);
                     });
@@ -156,7 +144,7 @@ class _MyHomePageState extends State<HomeScreen> {
                           children: [Text("Bus 2"), Text("Banar - CHB")])),
                   onPressed: () {
                     selectedRoute = 1;
-                    route = "R2";
+                    route = "B2";
                     routeColor = Colors.green;
                     Timer.periodic(Duration(seconds: 8), (timer) {
                       getBusLocation(route);
@@ -177,7 +165,7 @@ class _MyHomePageState extends State<HomeScreen> {
                       ])),
                   onPressed: () {
                     selectedRoute = 2;
-                    route = "R3";
+                    route = "B3";
                     routeColor = Colors.red;
                     Timer.periodic(Duration(seconds: 8), (timer) {
                       getBusLocation(route);
@@ -196,7 +184,7 @@ class _MyHomePageState extends State<HomeScreen> {
                           children: [Text("Bus 4"), Text("Mandore - CHB")])),
                   onPressed: () {
                     selectedRoute = 3;
-                    route = "R4";
+                    route = "B4";
                     routeColor = Colors.deepPurple;
                     Timer.periodic(Duration(seconds: 8), (timer) {
                       getBusLocation(route);

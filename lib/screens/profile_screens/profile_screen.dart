@@ -1,5 +1,7 @@
 import 'package:bus_tracker/repository/driver_auth_repository.dart';
+import 'package:bus_tracker/screens/profile_screens/about_us_screen.dart';
 import 'package:bus_tracker/screens/on_boarding_screens/splash_screen.dart';
+import 'package:bus_tracker/screens/profile_screens/privacy_policy_screen.dart';
 import 'package:bus_tracker/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
 
@@ -58,10 +60,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           ListTile(
             onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => AboutDialog(),
-              );
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AboutUsScreen(),
+                  ));
             },
             leading: Icon(Icons.info),
             title: Text(
@@ -82,6 +85,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               "Privacy Policy",
               style: TextStyle(fontSize: 15.0),
             ),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PrivacyPolicyScreen(),
+                  ));
+            },
           ),
           ListTile(
             onTap: () {

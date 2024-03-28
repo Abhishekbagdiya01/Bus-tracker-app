@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bus_tracker/models/driver_model.dart';
 import 'package:bus_tracker/repository/driver_auth_repository.dart';
 import 'package:bus_tracker/screens/driver_home_screen.dart';
@@ -19,11 +21,10 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController drivingLicNumberController = TextEditingController();
-  TextEditingController busNoController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController routeController = TextEditingController();
-  List routes = ["R1", "R2", "R3", "R4"];
-  String selectedRoute = "R1";
+
+  List bus = ["B1", "B2", "B3", "B4"];
+  String selectedBus = "B1";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,43 +65,25 @@ class _SignUpPageState extends State<SignUpPage> {
                 iconData: Icons.credit_card,
                 isHide: false),
             SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomTextField(
-                    width: MediaQuery.sizeOf(context).width * .5,
-                    controller: busNoController,
-                    hintText: "Bus No",
-                    iconData: Icons.bus_alert,
-                    keyboardType: TextInputType.number,
-                    isHide: false),
-                // CustomTextField(
-                //     width: MediaQuery.sizeOf(context).width * .4,
-                //     controller: routeController,
-                //     hintText: "Route",
-                //     iconData: Icons.pin_drop_outlined,
-                //     isHide: false),
-                SizedBox(
-                  width: 100,
-                  child: DropdownButton(
-                    value: selectedRoute,
-                    items: routes
-                        .map(
-                          (value) => DropdownMenuItem(
-                            child: Text(
-                              value.toString(),
-                            ),
-                            value: value,
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (value) {
-                      selectedRoute = value.toString();
-                      setState(() {});
-                    },
-                  ),
-                )
-              ],
+            SizedBox(
+              width: 100,
+              child: DropdownButton(
+                value: selectedBus,
+                items: bus
+                    .map(
+                      (value) => DropdownMenuItem(
+                        child: Text(
+                          value.toString(),
+                        ),
+                        value: value,
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  selectedBus = value.toString();
+                  setState(() {});
+                },
+              ),
             ),
             SizedBox(height: 10),
             CustomTextField(
@@ -116,17 +99,15 @@ class _SignUpPageState extends State<SignUpPage> {
               onClicked: () async {
                 if (emailController.text.trim().isNotEmpty &&
                     nameController.text.trim().isNotEmpty &&
-                    busNoController.text.trim().isNotEmpty &&
-                    routeController.text.trim().isNotEmpty &&
+                    selectedBus.isNotEmpty &&
                     drivingLicNumberController.text.trim().isNotEmpty &&
                     passwordController.text.trim().isNotEmpty) {
                   DriverModel driverModel = DriverModel(
                       uid: "",
                       name: nameController.text,
                       drivingLicenseNumber: drivingLicNumberController.text,
-                      busNumber: busNoController.text,
+                      busNumber: selectedBus,
                       email: emailController.text,
-                      route: routeController.text,
                       password: passwordController.text);
                   String response = await DriverAuthRepository()
                       .createDriverAccount(driverModel);
@@ -144,6 +125,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     snackbarMessenger(context, "${response}");
                   }
                 } else {
+                  // log("${nameController.text} ||${emailController.text} ||${drivingLicNumberController.text} ||${routeController.text}");
                   snackbarMessenger(context, "field cannot be empty");
                 }
               },

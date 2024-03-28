@@ -6,7 +6,7 @@ class DriverModel {
   String email;
   String drivingLicenseNumber;
   String busNumber;
-  String route;
+
   String? password;
   String? imageUrl;
 
@@ -16,7 +16,6 @@ class DriverModel {
     required this.drivingLicenseNumber,
     required this.busNumber,
     required this.email,
-    required this.route,
     this.imageUrl,
     this.password,
   });
@@ -29,7 +28,6 @@ class DriverModel {
         email: json['email'],
         drivingLicenseNumber: json['drivingLicenseNumber'],
         busNumber: json['busNumber'],
-        route: json['route'],
         imageUrl: json['imageUrl'],
         password: json['password']);
   }
@@ -40,7 +38,6 @@ class DriverModel {
       'email': email,
       'drivingLicenseNumber': drivingLicenseNumber,
       'busNumber': busNumber,
-      'route': route,
       'imageUrl': imageUrl,
       'password': password,
     };

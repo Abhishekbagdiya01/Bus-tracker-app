@@ -1,6 +1,8 @@
 import 'package:bus_tracker/repository/driver_auth_repository.dart';
-import 'package:bus_tracker/screens/driver_edit_profile.dart';
+import 'package:bus_tracker/screens/profile_screens/about_us_screen.dart';
+import 'package:bus_tracker/screens/profile_screens/driver_edit_profile.dart';
 import 'package:bus_tracker/screens/on_boarding_screens/splash_screen.dart';
+import 'package:bus_tracker/screens/profile_screens/privacy_policy_screen.dart';
 import 'package:flutter/material.dart';
 import '../utils/shared_pref.dart';
 
@@ -77,14 +79,32 @@ class CustomDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) => AboutDialog(),
-              );
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AboutUsScreen(),
+                  ));
             },
             leading: Icon(Icons.info),
             title: Text(
-              "About",
+              "About us",
+              style: TextStyle(fontSize: 15.0),
+            ),
+          ),
+          SizedBox(
+            height: 12.0,
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => PrivacyPolicyScreen(),
+                  ));
+            },
+            leading: Icon(Icons.file_copy),
+            title: Text(
+              "Privacy Policy",
               style: TextStyle(fontSize: 15.0),
             ),
           ),

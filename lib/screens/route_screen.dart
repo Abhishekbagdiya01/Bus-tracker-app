@@ -1,4 +1,4 @@
-import 'package:bus_tracker/screens/detailed_route.dart';
+import 'package:bus_tracker/screens/detailed_route_screen.dart';
 import 'package:bus_tracker/utils/map_routes.dart';
 import 'package:flutter/material.dart';
 
