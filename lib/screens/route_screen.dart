@@ -11,7 +11,7 @@ class RouteScreen extends StatelessWidget {
     {"bus": "Bus No 3", "route": "Ghantaghar to Basni"},
     {"bus": "Bus No 4", "route": "Mandore to Chaupasani"},
   ];
-  List busRouteStops = [route1Stops, route1Stops, route3Stops, route4Stops];
+  List busRouteStops = [route1Stops, route2Stops, route3Stops, route4Stops];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

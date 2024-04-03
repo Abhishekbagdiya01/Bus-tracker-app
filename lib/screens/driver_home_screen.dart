@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:bus_tracker/models/driver_model.dart';
 import 'package:bus_tracker/repository/firestore_repository.dart';
+import 'package:bus_tracker/utils/map_routes.dart';
 import 'package:bus_tracker/utils/utils.dart';
 import 'package:bus_tracker/widgets/custom_drawer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,6 +41,9 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
     }
   }
 
+  List routes = [route1, route2, route3, route4];
+  int selectedRoute = 0;
+
   bool isClicked = false;
   final Completer<GoogleMapController> _controllerGoogleMap = Completer();
   late GoogleMapController newGoogleMapController;
@@ -58,6 +62,20 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
   // List routes = [route1, route2, route3, route4];
   @override
   Widget build(BuildContext context) {
+    if (driverInfo != null) {
+      if (driverInfo!.busNumber == "B1") {
+        selectedRoute = 0;
+      } else if (driverInfo!.busNumber == "B2") {
+        selectedRoute = 1;
+      } else if (driverInfo!.busNumber == "B3") {
+        selectedRoute = 2;
+      } else if (driverInfo!.busNumber == "B4") {
+        selectedRoute = 3;
+      }
+    } else {
+      CircularProgressIndicator();
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: driverInfo != null
@@ -88,12 +106,12 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
                 getCurrentPosition();
               },
               polylines: {
-                //    Polyline(
-                //   polylineId: PolylineId('route'),
-                //   points: routes[selectedRoute],
-                //   color: routeColor,
-                //   width: 5,
-                // ),
+                Polyline(
+                  polylineId: PolylineId('route'),
+                  points: routes[selectedRoute],
+                  color: Colors.cyan,
+                  width: 5,
+                ),
               },
               markers: {
                 Marker(
