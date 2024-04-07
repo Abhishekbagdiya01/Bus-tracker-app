@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bus_tracker/models/driver_model.dart';
 import 'package:bus_tracker/repository/driver_auth_repository.dart';
 import 'package:bus_tracker/screens/driver_home_screen.dart';
@@ -108,6 +106,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       drivingLicenseNumber: drivingLicNumberController.text,
                       busNumber: selectedBus,
                       email: emailController.text,
+                      imageUrl: "",
                       password: passwordController.text);
                   String response = await DriverAuthRepository()
                       .createDriverAccount(driverModel);

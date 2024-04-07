@@ -1,3 +1,4 @@
+import 'package:bus_tracker/models/driver_model.dart';
 import 'package:bus_tracker/repository/driver_auth_repository.dart';
 import 'package:bus_tracker/screens/profile_screens/about_us_screen.dart';
 import 'package:bus_tracker/screens/profile_screens/driver_edit_profile.dart';
@@ -7,14 +8,12 @@ import 'package:flutter/material.dart';
 import '../utils/shared_pref.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({
+  CustomDrawer({
     super.key,
-    required this.name,
-    required this.imageUrl,
+    required this.driverModel,
   });
 
-  final String? name;
-  final String? imageUrl;
+  DriverModel driverModel;
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +26,11 @@ class CustomDrawer extends StatelessWidget {
               decoration: BoxDecoration(color: Colors.white),
               child: Row(
                 children: [
-                  imageUrl != ""
+                  driverModel.imageUrl != ""
                       ? CircleAvatar(
                           radius: 60,
                           backgroundImage: NetworkImage(
-                            imageUrl!,
+                            driverModel.imageUrl.toString(),
                           ),
                         )
                       : Image.asset(
@@ -46,7 +45,7 @@ class CustomDrawer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "${name}",
+                        "${driverModel.name}",
                         style: TextStyle(fontSize: 16.0),
                       ),
                       SizedBox(
@@ -58,7 +57,7 @@ class CustomDrawer extends StatelessWidget {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => EditProfile(
-                                    name: name!,
+                                    driverModel: driverModel,
                                   ),
                                 ));
                           },

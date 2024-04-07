@@ -34,17 +34,21 @@ class FireStoreRepository {
 
   // Edit profile
   Future editProfile(
-      {required String uid,
-      required Uint8List image,
-      required String name}) async {
+      {required DriverModel driverModel, Uint8List? image}) async {
     try {
-      String imageUrl =
-          await StorageRepository().uploadImageToStorage(uid: uid, file: image);
-      log(imageUrl);
-      _firestore.collection("drivers").doc(uid).update({
-        "imageUrl": imageUrl,
-        "name": name,
-      });
+      if (image == null) {
+        await _firestore.collection("drivers").doc(driverModel.uid).update({
+          "name": driverModel.name,
+        });
+      } else {
+        String imageUrl = await StorageRepository()
+            .uploadImageToStorage(uid: driverModel.uid, file: image);
+
+        await _firestore.collection("drivers").doc(driverModel.uid).update({
+          "imageUrl": imageUrl,
+          "name": driverModel.name,
+        });
+      }
     } catch (error) {
       log(error.toString());
     }

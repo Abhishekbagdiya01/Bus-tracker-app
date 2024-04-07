@@ -1,16 +1,18 @@
 import 'dart:typed_data';
+import 'package:bus_tracker/models/driver_model.dart';
 import 'package:bus_tracker/repository/firestore_repository.dart';
 import 'package:bus_tracker/screens/driver_home_screen.dart';
 import 'package:bus_tracker/utils/image_picker.dart';
 import 'package:bus_tracker/widgets/custom_button.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bus_tracker/widgets/snackbar.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProfile extends StatefulWidget {
-  EditProfile({required this.name, super.key});
-  String name;
+  EditProfile({required this.driverModel, super.key});
+  DriverModel driverModel;
 
   @override
   State<EditProfile> createState() => _EditProfileState();
@@ -19,10 +21,11 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   TextEditingController nameController = TextEditingController();
   Uint8List? image;
+
   @override
   Widget build(BuildContext context) {
-    String uid = FirebaseAuth.instance.currentUser!.uid;
-    nameController.text = widget.name;
+    // String uid = FirebaseAuth.instance.currentUser!.uid;
+    nameController.text = widget.driverModel.name;
     return Scaffold(
       appBar: AppBar(title: Text('Edit Profile')),
       body: Padding(
@@ -31,13 +34,35 @@ class _EditProfileState extends State<EditProfile> {
           children: [
             InkWell(
               onTap: () async {
-                image = await pickImage(ImageSource.gallery);
-                setState(() {});
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text("Pick image from"),
+                    actions: [
+                      IconButton(
+                          onPressed: () async {
+                            image = await pickImage(ImageSource.camera);
+
+                            Navigator.pop(context);
+                            setState(() {});
+                          },
+                          icon: Icon(Icons.camera_alt)),
+                      IconButton(
+                          onPressed: () async {
+                            image = await pickImage(ImageSource.gallery);
+                            Navigator.pop(context);
+                            setState(() {});
+                          },
+                          icon: Icon(Icons.photo))
+                    ],
+                  ),
+                );
               },
               child: image == null
                   ? CircleAvatar(
                       radius: 100,
-                    )
+                      backgroundImage:
+                          NetworkImage(widget.driverModel.imageUrl.toString()))
                   : CircleAvatar(
                       radius: 100, backgroundImage: MemoryImage(image!)),
             ),
@@ -55,15 +80,28 @@ class _EditProfileState extends State<EditProfile> {
               height: 50,
               width: MediaQuery.sizeOf(context).width * 0.4,
               label: "Save",
-              onClicked: () {
-                FireStoreRepository().editProfile(
-                    uid: uid, image: image!, name: nameController.text);
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => DriverHomeScreen(),
-                    ),
-                    (route) => true);
+              onClicked: () async {
+                if (nameController.text.trim().isNotEmpty) {
+                  DriverModel driverModel = DriverModel(
+                      uid: widget.driverModel.uid,
+                      name: nameController.text,
+                      drivingLicenseNumber:
+                          widget.driverModel.drivingLicenseNumber,
+                      busNumber: widget.driverModel.busNumber,
+                      email: widget.driverModel.email,
+                      imageUrl: widget.driverModel.imageUrl);
+                  await FireStoreRepository()
+                      .editProfile(driverModel: driverModel, image: image);
+                  snackbarMessenger(context, "Profile updated");
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => DriverHomeScreen(),
+                      ),
+                      (route) => false);
+                } else {
+                  snackbarMessenger(context, "Name cannot be empty");
+                }
               },
             )
           ],

@@ -8,7 +8,7 @@ class DriverModel {
   String busNumber;
 
   String? password;
-  String? imageUrl;
+  String imageUrl;
 
   DriverModel({
     required this.uid,
@@ -16,7 +16,7 @@ class DriverModel {
     required this.drivingLicenseNumber,
     required this.busNumber,
     required this.email,
-    this.imageUrl,
+    required this.imageUrl,
     this.password,
   });
 
