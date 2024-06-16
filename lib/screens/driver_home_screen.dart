@@ -19,13 +19,6 @@ class DriverHomeScreen extends StatefulWidget {
 
 class _DriverHomeScreenState extends State<DriverHomeScreen> {
   Position? currentPosition = null;
-  // DriverModel? driverInfo;
-  // void driverDetails() async {
-  //   String uid = FirebaseAuth.instance.currentUser!.uid;
-  //   driverInfo = await FireStoreRepository().getDriverDetails(uid);
-  //   log(driverInfo!.busNumber);
-  //   setState(() {});
-  // }
 
   void getCurrentPosition() async {
     await MapPermission.checkAndRequestLocationPermission();
@@ -53,10 +46,8 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
   );
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getCurrentPosition();
-    //driverDetails();
   }
 
   String uid = FirebaseAuth.instance.currentUser!.uid;
@@ -87,7 +78,7 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
             body: Column(
               children: [
                 SizedBox(
-                  height: 500,
+                  height: MediaQuery.sizeOf(context).height * 0.7,
                   child: GoogleMap(
                     initialCameraPosition: _kGooglePlex,
                     myLocationButtonEnabled: true,
@@ -96,9 +87,7 @@ class _DriverHomeScreenState extends State<DriverHomeScreen> {
                       _controllerGoogleMap.complete(controller);
                       newGoogleMapController = controller;
 
-                      setState(() {
-                        // bottomPaddingOfMap = 300.0;
-                      });
+                      setState(() {});
                       getCurrentPosition();
                     },
                     polylines: {
